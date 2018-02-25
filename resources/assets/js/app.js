@@ -22,15 +22,30 @@ const app = new Vue({
     data:{
     	msg: 'Update your status',
     	content: '',
+    	posts:[],
+    },
+    created(){
+    		axios.get('/getPost')
+			.then(response => {
+			    console.log(response);
+			    this.posts = response.data;
+			})
+			.catch(function (error) {
+			    console.log(error);
+			});
     },
     methods:{
     	addPost(){
     		//alert("Hello. It's ok");
-    		axios.post('http://localhost:8000/index.php/addPost', {
+    		axios.post('/addPost', {
 			    content: this.content
 			})
 			.then(function (response) {
 			    console.log('Save successfully');
+			    if(response.status === 200){
+			    	//alert('Your status has been aded');
+			    	app.posts = response.data;
+			    }
 			})
 			.catch(function (error) {
 			    console.log(error);

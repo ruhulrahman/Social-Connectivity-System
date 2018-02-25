@@ -993,15 +993,31 @@ var app = new Vue({
   el: '#app',
   data: {
     msg: 'Update your status',
-    content: ''
+    content: '',
+    posts: []
   },
+  created: function created() {
+    var _this = this;
+
+    axios.get('/getPost').then(function (response) {
+      console.log(response);
+      _this.posts = response.data;
+    }).catch(function (error) {
+      console.log(error);
+    });
+  },
+
   methods: {
     addPost: function addPost() {
       //alert("Hello. It's ok");
-      axios.post('http://localhost:8000/index.php/addPost', {
+      axios.post('/addPost', {
         content: this.content
       }).then(function (response) {
         console.log('Save successfully');
+        if (response.status === 200) {
+          //alert('Your status has been aded');
+          app.posts = response.data;
+        }
       }).catch(function (error) {
         console.log(error);
       });

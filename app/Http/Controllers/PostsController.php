@@ -15,14 +15,21 @@ class PostsController extends Controller
 		    	->leftJoin('profiles', 'users.id', '=', 'profiles.user_id')
 		    	->orderby('posts.id', 'desc')
 		    	->get();
-
     	return view('welcome')->with('posts', $posts);
+    }
+    public function getPost(){
+    	$posts = DB::table('posts')
+		    	->leftJoin('users', 'posts.user_id', '=', 'users.id')
+		    	->leftJoin('profiles', 'users.id', '=', 'profiles.user_id')
+		    	->orderby('posts.id', 'desc')
+		    	->get();
+    	return $posts;
     }
 
     public function addPost(Request $request){
     	$content = $request->content;
     	$auid = Auth::user()->id;
-    	DB::table('posts')->insert(
+    	$craete_post = DB::table('posts')->insert(
 		    [
 		    	'user_Id' => $auid, 
 		    	'posts' => $content,
@@ -31,5 +38,13 @@ class PostsController extends Controller
 		    	'updated_at' => date('Y-m-d H:i:s'),
 		    ]
 		);
+		if($craete_post){
+			$posts = DB::table('posts')
+		    	->leftJoin('users', 'posts.user_id', '=', 'users.id')
+		    	->leftJoin('profiles', 'users.id', '=', 'profiles.user_id')
+		    	->orderby('posts.id', 'desc')
+		    	->get();
+    		return $posts;
+		}
     }
 }

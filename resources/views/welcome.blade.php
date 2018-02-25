@@ -78,22 +78,21 @@
                     </div>
                     
                 </div>
-
-                @foreach ($posts as $pst)
+                <div v-for="post in posts">
                     <div class="col-lg-12">
                         <div class="col-lg-2 pull-left">
-                            <img src="{{ asset('img') }}/{{ $pst->pic }}" alt="Image" style="width: 100px; height: 100px; margin: 10px">
+                            <img :src="'{{ asset('img')}}/'+ post.pic" alt="Image" style="width: 100px; height: 100px; margin: 10px">
                         </div>
                         <div class="col-lg-10">
-                            <h3><a href="{{ url('/profile') }}/{{ $pst->slug }}">{{ $pst->name }}</a></h3>
-                            <p><i class="fas fa-map-marker"></i> {{ $pst->city }}, {{ $pst->country }}</p>
-                            <p><i class="fas fa-clock"></i> {{ date('F j, Y', strtotime($pst->created_at)) }} at {{ date('H:i a', strtotime($pst->created_at)) }}</p>
+                            <h3><a href="{{ url('/profile') }}">@{{ post.name }}</a></h3>
+                            <p><i class="fas fa-map-marker"></i> @{{ post.city }}, @{{ post.country }}</p>
+                            <p><i class="fas fa-clock"></i> @{{ post.created_at }}</p>
                         </div>
                     </div>
                     <p class="col-lg-12" style="padding:10px 0px; border-bottom: 1px solid #ddd">
-                        {{ $pst->posts }}
+                        @{{ post.posts }}
                     </p>
-                @endforeach
+                </div>
             </div>
 
         </div>

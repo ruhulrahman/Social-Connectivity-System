@@ -62,7 +62,8 @@ Route::middleware('auth')->group(function () {
 
 
 //Post Controller 
-	Route::post('addPost', 'PostsController@addPost');
+	Route::post('/addPost', 'PostsController@addPost');
+	Route::get('/getPost', 'PostsController@getPost');
     
 });
 
