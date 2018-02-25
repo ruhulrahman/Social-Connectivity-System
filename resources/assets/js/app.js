@@ -20,6 +20,21 @@ Vue.component('example', require('./components/Example.vue'));
 const app = new Vue({
     el: '#app',
     data:{
-    	msg: 'Hello brother'
+    	msg: 'Update your status',
+    	content: '',
+    },
+    methods:{
+    	addPost(){
+    		//alert("Hello. It's ok");
+    		axios.post('http://localhost:8000/index.php/addPost', {
+			    content: this.content
+			})
+			.then(function (response) {
+			    console.log('Save successfully');
+			})
+			.catch(function (error) {
+			    console.log(error);
+			});
+    	}
     }
 });

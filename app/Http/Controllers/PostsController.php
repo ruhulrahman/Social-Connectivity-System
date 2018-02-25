@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Auth;
 use DB;
 
 class PostsController extends Controller
@@ -15,5 +17,19 @@ class PostsController extends Controller
 		    	->get();
 
     	return view('welcome')->with('posts', $posts);
+    }
+
+    public function addPost(Request $request){
+    	$content = $request->content;
+    	$auid = Auth::user()->id;
+    	DB::table('posts')->insert(
+		    [
+		    	'user_Id' => $auid, 
+		    	'posts' => $content,
+		    	'status' => 0,
+		    	'created_at' => date('Y-m-d H:i:s'),
+		    	'updated_at' => date('Y-m-d H:i:s'),
+		    ]
+		);
     }
 }

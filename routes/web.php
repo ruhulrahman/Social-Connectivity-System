@@ -59,6 +59,10 @@ Route::middleware('auth')->group(function () {
 	Route::post('/uploadPhoto', 'ProfileController@uploadPhoto');
 	Route::post('/updateProfile', 'ProfileController@updateProfile');
 
+
+
+//Post Controller 
+	Route::post('addPost', 'PostsController@addPost');
     
 });
 

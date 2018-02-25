@@ -4,13 +4,16 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>Laravel</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
-    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+        <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
@@ -18,25 +21,8 @@
         <style>
             html, body {
                 background-color: #ddd;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
+                color:#2b2b2b;
                 margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
             }
 
             .top-right {
@@ -62,14 +48,12 @@
                 text-decoration: none;
                 text-transform: uppercase;
             }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
         </style>
+
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
+        <div id="app">
+        <div class="">
             @if (Route::has('login'))
                 <div class="top-right links">
                     @if (Auth::check())
@@ -82,16 +66,28 @@
                 </div>
             @endif
 
-            <div class="container" style="background: #FFF">
-                
+            <div class="container" style="background: #FFF; margin-top: 50px;">
+                <div class="row">
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-8">                        
+                    @{{ msg }} <small style="color: green">@{{ content }}</small>
+                    <form method="post" enctype="multipart/form-data" v-on:submit.prevent="addPost">
+                        <textarea cols="90" rows="5" v-model="content"></textarea>
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </form>
+                    </div>
+                    
+                </div>
+
                 @foreach ($posts as $pst)
                     <div class="col-lg-12">
                         <div class="col-lg-2 pull-left">
                             <img src="{{ asset('img') }}/{{ $pst->pic }}" alt="Image" style="width: 100px; height: 100px; margin: 10px">
                         </div>
                         <div class="col-lg-10">
-                            <h3>{{ $pst->name }}</h3>
+                            <h3><a href="{{ url('/profile') }}/{{ $pst->slug }}">{{ $pst->name }}</a></h3>
                             <p><i class="fas fa-map-marker"></i> {{ $pst->city }}, {{ $pst->country }}</p>
+                            <p><i class="fas fa-clock"></i> {{ date('F j, Y', strtotime($pst->created_at)) }} at {{ date('H:i a', strtotime($pst->created_at)) }}</p>
                         </div>
                     </div>
                     <p class="col-lg-12" style="padding:10px 0px; border-bottom: 1px solid #ddd">
@@ -101,5 +97,10 @@
             </div>
 
         </div>
+        </div>
+
+
+        <!-- Scripts -->
+        <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>
